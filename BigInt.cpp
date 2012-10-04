@@ -39,7 +39,7 @@
 	}
 
 	BigInt BigInt::operator+(BigInt other){
-		std::string temp = "";
+		std::deque<char> temp;
 		int remainder = 0, sum = 0, i = 0, additive = 0;
 		int least = other.length() < length() ? other.length() : length();
 		BigInt max = other.length() < length() ? *this : other;
@@ -57,13 +57,20 @@
 			if(sum/10)
 				sum %= 10;
 
-			temp =  (char)(sum + '0') + temp;
+			temp.push_front((char)(sum + '0'));
 		}
 
 		if(remainder)
-			temp = '1' + temp;
+			temp.push_front('1');
+
+		std::string resultstring;
+		int stringsize = temp.size();
+		for(int j = 0; j < stringsize; j++){
+			resultstring += temp.front();
+			temp.pop_front();
+		}
 			
-		BigInt result(temp);
+		BigInt result(resultstring);
 
 		return result;
 
@@ -95,7 +102,7 @@
 	}
 
 
-	std::string BigInt::toString(){
+	std::string BigInt::toString() const{
 		return num;
 	}
 

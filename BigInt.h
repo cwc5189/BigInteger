@@ -3,12 +3,14 @@
 
 #include <string>
 #include <sstream>
+#include <deque>
 
 class BigInt {
 
 public:
 	BigInt();
 	BigInt(const int other);
+	BigInt::BigInt(std::deque other);
 	BigInt::BigInt(std::string other);
 	int at(int i);
 	double length();
@@ -18,7 +20,7 @@ public:
 	BigInt operator+(int other);
 	BigInt operator*(BigInt other);
 	BigInt operator^(int pow);
-	std::string toString();
+	std::string toString() const;
 
 private:
 	std::string num;
