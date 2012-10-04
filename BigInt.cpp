@@ -40,39 +40,32 @@
 
 	BigInt BigInt::operator+(BigInt other){
 		std::deque<char> temp;
+		std::string da = "";
 		int remainder = 0, sum = 0, i = 0, additive = 0;
-		int least = other.length() < length() ? other.length() : length();
+
 		BigInt max = other.length() < length() ? *this : other;
 		BigInt min = other.length() < length() ? other : *this;
+		int least = min.length(), most = max.length();
 
-		for(; i < max.length(); i++){
+		for(; i < most; i++){
 			if(i < least)
-				additive = min.at(i);
+				additive = min.num[least-1-i] -'0';
 			else
 				additive = 0;
 
-			sum = (max.at(i) + additive) + remainder;
+			sum = ((max.num[most-1-i]-'0') + additive) + remainder;
 			remainder = sum /10;
 
 			if(sum/10)
 				sum %= 10;
 
-			temp.push_front((char)(sum + '0'));
+			max.num[most-i-1] = (char)(sum + '0');
 		}
 
 		if(remainder)
-			temp.push_front('1');
+			max.num = '1' + max.num;
 
-		std::string resultstring;
-		int stringsize = temp.size();
-		for(int j = 0; j < stringsize; j++){
-			resultstring += temp.front();
-			temp.pop_front();
-		}
-			
-		BigInt result(resultstring);
-
-		return result;
+		return max;
 
 	}
 
@@ -92,13 +85,19 @@
 		return temp;
 	}
 
-	BigInt BigInt::operator^(int pow){
+	BigInt BigInt::operator^(BigInt other){
 		BigInt temp(1);
-		for(int i = 0; i < pow; i++){
-			temp =  temp * *this;
+		for(BigInt i(0); i != other; i = i + 1){
+			temp = temp * *this;
 		}
 
 		return temp;
+	}
+
+	BigInt BigInt::operator^(int pow){
+		BigInt p(pow);
+
+		return *this ^ p;
 	}
 
 

@@ -18,6 +18,7 @@ public:
 	BigInt operator+(BigInt other);
 	BigInt operator+(int other);
 	BigInt operator*(BigInt other);
+	BigInt operator^(BigInt other);
 	BigInt operator^(int pow);
 	std::string toString() const;
 
