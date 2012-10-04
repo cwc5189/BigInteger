@@ -15,6 +15,7 @@ public:
 	bool operator!=(BigInt& other);
 	BigInt operator=(const int other);
 	BigInt operator+(BigInt other);
+	BigInt operator+(int other);
 	BigInt operator*(BigInt other);
 	BigInt operator^(int pow);
 	std::string toString();

@@ -40,11 +40,18 @@
 
 	BigInt BigInt::operator+(BigInt other){
 		std::string temp = "";
-		int remainder = 0, sum = 0, i = 0;
+		int remainder = 0, sum = 0, i = 0, additive = 0;
 		int least = other.length() < length() ? other.length() : length();
+		BigInt max = other.length() < length() ? *this : other;
+		BigInt min = other.length() < length() ? other : *this;
 
-		for(; i < least; i++){
-			sum = (other.at(i) + at(i)) + remainder;
+		for(; i < max.length(); i++){
+			if(i < least)
+				additive = min.at(i);
+			else
+				additive = 0;
+
+			sum = (max.at(i) + additive) + remainder;
 			remainder = sum /10;
 
 			if(sum/10)
@@ -53,29 +60,21 @@
 			temp =  (char)(sum + '0') + temp;
 		}
 
-		std::string temp2 = (*this).num.substr(0, other.length() - least + 1);
-
-		temp = other.length() > num.length() ? other.toString().substr(0, other.length() - least) + temp : num.substr(0, num.length() - least) + temp;
-		
-		if(remainder){
-			if( i = temp.length() )
-				if( temp.at(0) == '9' ){
-					temp[0] = 0;
-					temp = '1' + temp;
-				}
-				else
-					temp[0] += remainder;
-			else
-				temp.at(temp.length() - least - 1) += 1;
-		}
+		if(remainder)
+			temp = '1' + temp;
 			
-
 		BigInt result(temp);
 
 		return result;
 
 	}
 
+	BigInt BigInt::operator+(int other){
+		std::stringstream ss;
+		ss << other;
+		BigInt temp(ss.str());
+		return *this + temp;
+	}
 
 	BigInt BigInt::operator*(BigInt other){
 		BigInt temp = 0;
@@ -87,9 +86,9 @@
 	}
 
 	BigInt BigInt::operator^(int pow){
-		BigInt temp(0);
-		for(int i = 0; i <= pow; i++){
-			temp = temp + ( *this * *this );
+		BigInt temp(1);
+		for(int i = 0; i < pow; i++){
+			temp =  temp * *this;
 		}
 
 		return temp;
