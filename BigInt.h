@@ -10,7 +10,6 @@ class BigInt {
 public:
 	BigInt();
 	BigInt(const int other);
-	BigInt::BigInt(std::deque other);
 	BigInt::BigInt(std::string other);
 	int at(int i);
 	double length();
